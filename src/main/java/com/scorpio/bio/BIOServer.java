@@ -28,6 +28,7 @@ public class BIOServer {
         ServerSocket serverSocket = new ServerSocket(6666);
         System.out.println("服务端已启动...."+Thread.currentThread().getName());
         while (true){
+            //无连接，等待连接,就会阻塞
             final Socket accept = serverSocket.accept();
             System.out.println("连接到一个客户端...."+Thread.currentThread().getName());
             executorService.execute(new Runnable() {
@@ -48,10 +49,13 @@ public class BIOServer {
             InputStream inputStream = socket.getInputStream();
             while (true){
                 //todo 疑问:这里读取完数据，直接就结束，不会走下一步是否为-1的判断，很奇怪
+                //解析：这个地方也会阻塞，无消息，等待接收消息，也会阻塞，同上
                 read = inputStream.read(bytes);
+                System.out.println("read:"+read);
                 if(read!=-1){
                     System.out.println(new String(bytes, 0, read) +Thread.currentThread().getName());
                 }else {
+                    System.out.println("退出。。。。");
                     break;
                 }
             }
