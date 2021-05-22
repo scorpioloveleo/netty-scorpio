@@ -28,6 +28,7 @@ public class NIOServer {
         //将该ServerSocketChannel注册到Selector，并设置事件为OP_ACCEPT
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
+
         while (true){
 
             if(selector.select(1000) == 0){
@@ -43,15 +44,21 @@ public class NIOServer {
                 if(key.isAcceptable()){
                     //该客户端生成一个SocketChannel
                     SocketChannel accept = serverSocketChannel.accept();
+                    accept.configureBlocking(false);
+                    System.out.println("生成了一个SocketChannel: "+ accept.hashCode());
                     //注册
                     accept.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
+
+                    //注册数量
+                    System.out.println("注册数量: " + selector.keys().size());
                 }
 
                 if(key.isReadable()){
                     //通过Key获取相应的channel
-                    SelectableChannel channel = key.channel();
+                    SocketChannel channel = (SocketChannel)key.channel();
                     //通过channel获取相应的
                     ByteBuffer attachment = (ByteBuffer)key.attachment();
+                    channel.read(attachment);
                     System.out.println("接收到的内容:"+new String(attachment.array()));
                 }
 
