@@ -8,6 +8,7 @@ public class MyClientInitializer extends ChannelInitializer {
     @Override
     protected void initChannel(Channel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();
+        pipeline.addLast(new MyByteToLongDecoder());
         pipeline.addLast(new MyLongToByteEncoder());
         pipeline.addLast(new MyClientHandler());
     }

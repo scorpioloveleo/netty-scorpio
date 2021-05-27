@@ -11,6 +11,7 @@ public class MyClientHandler extends SimpleChannelInboundHandler<Long> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(674634);
+        System.out.println("发送的消息");
+        ctx.writeAndFlush(new Long(465654));
     }
 }

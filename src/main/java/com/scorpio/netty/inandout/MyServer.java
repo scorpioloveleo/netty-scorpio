@@ -21,8 +21,9 @@ public class MyServer {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new MyServerInitializer());
             ChannelFuture channelFuture = bootstrap.bind(7000).sync();
-            channelFuture.channel().closeFuture().sync();
+
             System.out.printf("服务器启动");
+            channelFuture.channel().closeFuture().sync();
         }finally {
             bossGroup.shutdownGracefully();
             workGroup.shutdownGracefully();

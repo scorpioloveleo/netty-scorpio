@@ -12,7 +12,8 @@ public class MyByteToLongDecoder extends ByteToMessageDecoder {
         System.out.println("解码器被调用...");
         if(byteBuf.isReadable()){
             if(byteBuf.readableBytes()>=8){
-                byteBuf.readLong();
+                //将消息存入到List传递给下一个handler
+                list.add(byteBuf.readLong());
             }
         }
     }

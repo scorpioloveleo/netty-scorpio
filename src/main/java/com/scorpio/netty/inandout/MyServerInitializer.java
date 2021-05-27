@@ -9,6 +9,7 @@ public class MyServerInitializer extends ChannelInitializer {
     protected void initChannel(Channel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();
         pipeline.addLast(new MyByteToLongDecoder());
+        pipeline.addLast(new MyLongToByteEncoder());
         pipeline.addLast(new MyServerHandler());
     }
 }
